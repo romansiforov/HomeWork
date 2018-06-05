@@ -1,115 +1,49 @@
 package Home_work_2_1;
 
 import org.openqa.selenium.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by User1 on 21.11.2017.
  */
 public class Part2 extends Part1 {
     public void start (WebDriver ChromeDriver)throws InterruptedException{
-        this.GetSite(ChromeDriver);
+        GlobalOperations.GetSite(ChromeDriver);
         System.out.println("The site [http://prestashop-automation.qatestlab.com.ua/admin147ajyvk0/] was opened");
-        this.Authorization(ChromeDriver);
+        GlobalOperations.Authorization(ChromeDriver);
         System.out.println("User was successfully logged in the system");
         Thread.sleep(3000);
         this.Sections(ChromeDriver);
         System.out.println("The Browser will be closed in several seconds");
-        this.LogOut(ChromeDriver);
+        GlobalOperations.LogOut(ChromeDriver);
     }
-    private void Sections (WebDriver ChromeDriver) throws InterruptedException{
-        // Click the "Заказы" button
-        WebElement orders = ChromeDriver.findElement(By.id("subtab-AdminParentOrders"));
-        orders.click();
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
 
-        // Click the "Заказы" button
-        orders = ChromeDriver.findElement(By.id("subtab-AdminCatalog"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
+    public void Sections (WebDriver ChromeDriver) throws InterruptedException {
 
-        // Click the "Клиенты" button
-        orders = ChromeDriver.findElement(By.linkText("Клиенты"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
+        List<WebElement> list = ChromeDriver.findElements(By.className("maintab"));
+        List<String> menusById = new ArrayList<String>();
+        for (WebElement current_item : list) {
 
-        // Click the "Служба поддержки" button
-        orders = ChromeDriver.findElement(By.id("subtab-AdminParentCustomerThreads"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
+            menusById.add(current_item.getText());
+        }
 
-        // Click the "Статистика" button
-        orders = ChromeDriver.findElement(By.linkText("Статистика"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
+        for (String current_item : menusById) {
+            WebElement element = ChromeDriver.findElement(By.linkText(current_item));
+            element.click();
+            Thread.sleep(3000);
+            String title = ChromeDriver.getTitle();
+            System.out.println("Current page is: " + title);
+            ChromeDriver.navigate().refresh();
+            String titleAfterRefresh = ChromeDriver.getTitle();
+            boolean currentPageTitleWasChangedAfterRefresh = title.equals(titleAfterRefresh);
+            if (!currentPageTitleWasChangedAfterRefresh) {
+                System.out.println("Current page was changed. Previously WebDriver was on page '" + title +
+                        "', but now current page is " + titleAfterRefresh);
+                break;
+            }
 
-        // Click the "Modules" button
-        orders = ChromeDriver.findElement(By.id("subtab-AdminParentModulesSf"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
-
-        // Click the "Design" button
-        orders = ChromeDriver.findElement(By.linkText("Design"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
-
-        // Click the "Доставка" button
-        orders = ChromeDriver.findElement(By.id("subtab-AdminParentShipping"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
-
-        // Click the "Способ оплаты" button
-        orders = ChromeDriver.findElement(By.id("subtab-AdminParentPayment"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
-
-        // Click the "International" button
-        orders = ChromeDriver.findElement(By.id("subtab-AdminInternational"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
-
-        // Click the "Shop Parameters" button
-        orders = ChromeDriver.findElement(By.id("subtab-ShopParameters"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
-
-        // Click the "Конфигурация" button
-        orders = ChromeDriver.findElement(By.id("subtab-AdminAdvancedParameters"));
-        orders.click();
-        Thread.sleep(2000);
-        System.out.println("User is placed in the "+ChromeDriver.getTitle()+" page");
-        ChromeDriver.navigate().refresh();
-        Thread.sleep(2000);
-
+        }
     }
 }

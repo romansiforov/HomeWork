@@ -12,25 +12,25 @@ import java.util.concurrent.TimeUnit;
 public class Home_work_2_1 {
     public static void main(String[] args) throws InterruptedException{
 
-        WebDriver ChromeDriver = new ChromeDriver();
-        ChromeDriver.manage().window().maximize();
+        WebDriver driver = GlobalOperations.initChromDriver();
+        driver.manage().window().maximize();
 
         //The first part of home work
-        System.out.println("--------------------------------------------------------------");
+      /*  System.out.println("--------------------------------------------------------------");
         System.out.println("The first task of home work");
 
         Part1 test = new Part1();
-        test.start(ChromeDriver);
+        test.start(driver);
 
-        System.out.println("--------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------");*/
         System.out.println("The second task of home work");
 
         //The second part of home work
-        test = new Part2();
-        test.start(ChromeDriver);
+        Part2  test = new Part2();
+        test.start(driver);
 
         Thread.sleep(5000);
-        ChromeDriver.quit();
+        driver.quit();
 
     }
 
